@@ -70,8 +70,8 @@ public class Service {
 						+ "<ArticleCount>1</ArticleCount> <Articles> <item> <Title><![CDATA[%4$s]]></Title>  <Description><![CDATA[%5$s]]></Description>"
 						+ " <PicUrl><![CDATA[%6$s]]></PicUrl> <Url><![CDATA[%7$s]]></Url> </item>  </Articles> <FuncFlag>1</FuncFlag> </xml> ";
 
-				res = String.format(textPicTemplate, fromUsername, toUsername, time, "美女", "美眉", "http://blog.xmark.info/images/test.jpg",
-						"http://blog.xmark.info/images/test.jpg");
+				res = String.format(textPicTemplate, fromUsername, toUsername, time, "美女", "美眉", "http://myweixin.cloudfoundry.com/mm/1.jpg",
+						"http://myweixin.cloudfoundry.com/mm/1.jpg");
 			} else {
 				String textTemplate = "<xml>" + "<ToUserName><![CDATA[%1$s]]></ToUserName>" + "<FromUserName><![CDATA[%2$s]]></FromUserName>"
 						+ "<CreateTime>%3$s</CreateTime>" + "<MsgType><![CDATA[%4$s]]></MsgType>" + "<Content><![CDATA[%5$s]]></Content>"
