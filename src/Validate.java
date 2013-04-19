@@ -22,6 +22,7 @@ public class Validate extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		// System.out.println(request.getCharacterEncoding());
 		// response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		Service.responseMsg(request, out);
 		out.flush();
 		out.close();
