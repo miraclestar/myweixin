@@ -1,3 +1,4 @@
+package info.xmark.core;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -80,6 +81,8 @@ public class Service {
 				res = String.format(textPicTemplate, fromUsername, toUsername, time, "h哈哈", "嘿嘿，" + keyword,
 						"http://myweixin.cloudfoundry.com/tmp/" + mmlist.get(keyword) + "/1.jpg", "http://myweixin.cloudfoundry.com/tmp/" + mmlist.get(keyword)
 								+ "/1.jpg");
+				// test
+				Tools.randomPic(mmlist.get(keyword));
 			} else {
 				String textTemplate = "<xml>" + "<ToUserName><![CDATA[%1$s]]></ToUserName>" + "<FromUserName><![CDATA[%2$s]]></FromUserName>"
 						+ "<CreateTime>%3$s</CreateTime>" + "<MsgType><![CDATA[%4$s]]></MsgType>" + "<Content><![CDATA[%5$s]]></Content>"

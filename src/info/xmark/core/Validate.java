@@ -1,3 +1,4 @@
+package info.xmark.core;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -24,8 +25,15 @@ public class Validate extends HttpServlet {
 		// response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		Service.responseMsg(request, out);
+
 		out.flush();
 		out.close();
 	}
 
+	@Override
+	public void init() throws ServletException {
+		Tools.setPath(getServletContext().getRealPath("/"));
+		System.out.println(getServletContext().getRealPath("/"));
+		super.init();
+	}
 }
