@@ -1,10 +1,12 @@
 package info.xmark.core;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -66,23 +68,17 @@ public class Service {
 	private static String reply(String fromUsername, String toUsername, String keyword, String time) throws UnsupportedEncodingException {
 		String res = "";
 
-		HashMap<String, String> mmlist = new HashMap<String, String>();
-		mmlist.put("纯洁", "chunjie");
-		mmlist.put("性感", "xinggan");
-		mmlist.put("美腿", "meitui");
-		mmlist.put("黑白", "heibai");
 		// System.out.println(new String(keyword.getBytes(), "utf-8"));
 		if (null != keyword && !keyword.equals("")) {
-			if (mmlist.containsKey(keyword)) {
+			String transfer = analy(keyword);
+			if (!transfer.equals("")) {
 				String textPicTemplate = " <xml> <ToUserName><![CDATA[%1$s]]></ToUserName> <FromUserName><![CDATA[%2$s]]></FromUserName> <CreateTime>%3$s</CreateTime> <MsgType><![CDATA[news]]></MsgType> "
 						+ "<ArticleCount>1</ArticleCount> <Articles> <item> <Title><![CDATA[%4$s]]></Title>  <Description><![CDATA[%5$s]]></Description>"
 						+ " <PicUrl><![CDATA[%6$s]]></PicUrl> <Url><![CDATA[%7$s]]></Url> </item>  </Articles> <FuncFlag>1</FuncFlag> </xml> ";
 
-				res = String.format(textPicTemplate, fromUsername, toUsername, time, "h哈哈", "嘿嘿，" + keyword,
-						"http://myweixin.cloudfoundry.com/tmp/" + mmlist.get(keyword) + "/1.jpg", "http://myweixin.cloudfoundry.com/tmp/" + mmlist.get(keyword)
-								+ "/1.jpg");
-				// test
-				Tools.randomPic(mmlist.get(keyword));
+				String picUrl = "http://myweixin.cloudfoundry.com/tmp/" + transfer + "/" + Tools.randomPic(transfer);
+				res = String.format(textPicTemplate, fromUsername, toUsername, time, "h哈哈", "嘿嘿，" + keyword, picUrl, picUrl);
+
 			} else {
 				String textTemplate = "<xml>" + "<ToUserName><![CDATA[%1$s]]></ToUserName>" + "<FromUserName><![CDATA[%2$s]]></FromUserName>"
 						+ "<CreateTime>%3$s</CreateTime>" + "<MsgType><![CDATA[%4$s]]></MsgType>" + "<Content><![CDATA[%5$s]]></Content>"
@@ -97,5 +93,23 @@ public class Service {
 		res = new String(res.getBytes(), "iso-8859-1");
 		System.out.println("resultStr: " + res);
 		return res;
+	}
+
+	private static String analy(String keyword) {
+
+		String dirName = "";
+
+		HashMap<String, String> mmlist = new HashMap<String, String>();
+		mmlist.put("纯洁", "chunjie");
+		mmlist.put("性感", "xinggan");
+		mmlist.put("美腿", "meitui");
+		mmlist.put("黑白", "heibai");
+		mmlist.put("其他", "other");
+		for (Map.Entry<String, String> m : mmlist.entrySet()) {
+			if (m.getKey().equals(keyword) || keyword.contains(m.getKey())) {
+				dirName = m.getValue();
+			}
+		}
+		return dirName;
 	}
 }

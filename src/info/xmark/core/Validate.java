@@ -1,4 +1,5 @@
 package info.xmark.core;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -33,7 +34,7 @@ public class Validate extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		Tools.setPath(getServletContext().getRealPath("/"));
-		System.out.println(getServletContext().getRealPath("/"));
+		// System.out.println(getServletContext().getRealPath("/"));
 		super.init();
 	}
 }

@@ -1,4 +1,5 @@
 package info.xmark.core;
+
 import java.io.File;
 import java.util.Random;
 
@@ -11,25 +12,35 @@ public class Tools {
 
 	public static void setPath(String path) {
 		Tools.path = path;
-		System.out.println("path set !");
+		log.info("path set !---" + path);
 	}
 
 	// 随机获取图片名字
 	public static String randomPic(String type) {
-		String p = path.replace("ROOT", "myweixin/tmp/" + type + "/");
-		File file = new File(p);
-		String[] fls = file.list();
+		log.debug("type: " + type);
+		String ret = "";
+		try {
+			String p = path + "tmp/" + type;
+			File file = new File(p);
 
-		int random = new Random().nextInt(fls.length);
-		log.debug(random);
-		// for (int i = 0; i < fls.length; i++) {
-		// System.out.println(fls[i] + "," + i);
-		// }
+			String[] fls = file.list();
 
-		return fls[random];
+			log.debug("last path: " + p);
+			int random = 0;
+			if (fls != null) {
+				random = new Random().nextInt(fls.length);
+				ret = fls[random];
+			}
+
+			log.debug("ret file name : " + ret);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("get random file error: ", e);
+		}
+		return ret;
 	}
 
 	public static void main(String[] args) {
-		randomPic("xinggan");
+		randomPic("tka");
 	}
 }
