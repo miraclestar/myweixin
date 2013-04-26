@@ -84,7 +84,7 @@ public class Service {
 						+ "<CreateTime>%3$s</CreateTime>" + "<MsgType><![CDATA[%4$s]]></MsgType>" + "<Content><![CDATA[%5$s]]></Content>"
 						+ "<FuncFlag>0</FuncFlag>" + "</xml>";
 				String msgType = "text";
-				String contentStr = "想看什么样的美眉，我帮你找找看，性感？纯洁？还是美腿？\n";
+				String contentStr = "想看什么样的美眉，我帮你找找看，性感？纯洁？还是美腿？或者其他\n";
 				res = String.format(textTemplate, fromUsername, toUsername, time, msgType, contentStr);
 			}
 		} else {
@@ -105,6 +105,10 @@ public class Service {
 		mmlist.put("美腿", "meitui");
 		mmlist.put("黑白", "heibai");
 		mmlist.put("其他", "other");
+		mmlist.put("都要", "other");
+		mmlist.put("美女", "other");
+		mmlist.put("创意", "chuangyi");
+		mmlist.put("动态", "chuangyi");
 		for (Map.Entry<String, String> m : mmlist.entrySet()) {
 			if (m.getKey().equals(keyword) || keyword.contains(m.getKey())) {
 				dirName = m.getValue();

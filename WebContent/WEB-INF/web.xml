@@ -9,7 +9,7 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-   <servlet>
+  <servlet>
     <servlet-name>log4j-init</servlet-name>
     <servlet-class>info.xmark.base.Log4jInit</servlet-class>
     <init-param>
@@ -27,5 +27,16 @@
   <servlet-mapping>
     <servlet-name>Validate</servlet-name>
     <url-pattern>/Validate</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Secret</display-name>
+    <servlet-name>Secret</servlet-name>
+    <servlet-class>com.miracle.secretra.Secret</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Secret</servlet-name>
+    <url-pattern>/Secret</url-pattern>
+    <url-pattern>/secretra</url-pattern>
   </servlet-mapping>
 </web-app>
