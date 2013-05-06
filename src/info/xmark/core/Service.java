@@ -108,7 +108,7 @@ public class Service {
 		mmlist.put("都要", "other");
 		mmlist.put("美女", "other");
 		mmlist.put("创意", "chuangyi");
-		mmlist.put("动态", "chuangyi");
+		mmlist.put("动态", "dt");
 		for (Map.Entry<String, String> m : mmlist.entrySet()) {
 			if (m.getKey().equals(keyword) || keyword.contains(m.getKey())) {
 				dirName = m.getValue();

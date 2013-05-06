@@ -41,6 +41,6 @@ public class Tools {
 	}
 
 	public static void main(String[] args) {
-		randomPic("tka");
+		randomPic("dt");
 	}
 }

@@ -1,6 +1,7 @@
 package com.miracle.secretra;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +22,14 @@ public class Secret extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		// System.out.println(request.getCharacterEncoding());
+		// response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		out.print(SecretService.reply(request));
 
+		out.flush();
+		out.close();
 	}
 
 }
