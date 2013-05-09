@@ -15,7 +15,7 @@ public class DAOcat {
 
 	private static Logger log = Logger.getLogger(DAOcat.class);
 
-	public List<MM> queryMMbyUid(String uid) {
+	public static List<MM> queryMMbyUid(String uid) {
 		List<MM> ret = new ArrayList<MM>();
 		Connection conn = DBPool.getInstance().getConnection();
 		PreparedStatement pstmt = null;

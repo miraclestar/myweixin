@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Random;
 import java.util.TimeZone;
 
 import org.apache.log4j.Logger;
@@ -31,14 +30,13 @@ public class DBDog {
 	private static Logger log = Logger.getLogger(DBDog.class);
 
 	// 从最新的50个秘密当中随即获取一个秘密
-	public static String getSecretPic() {
+	public static String getSecretPic(String fromUsername) {
 		String ret = null;
 		Connection conn = DBPool.getInstance().getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		int random = new Random().nextInt(50);
-		String sql = "select secret,create_dt from secret limit " + random + ",1";
+		String sql = "select secret,create_dt from secret WHERE uid<>" + fromUsername + " ORDER BY RAND() LIMIT 1";
 		log.debug("sql : " + sql);
 		try {
 			pstmt = conn.prepareStatement(sql);

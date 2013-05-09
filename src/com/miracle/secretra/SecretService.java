@@ -58,12 +58,11 @@ public class SecretService {
 					String content = root.elementText("Content");
 
 					if (content.startsWith("WD")) {
-						// 查看我的秘密，以及别人的留言
-
+						// 查看我的秘密
+						ret = BirdSing.showSecret(fromUsername, toUsername, time);
 					} else if (content.startsWith("CK")) {
 						// 查看我留过言的 秘密
 					} else if (content.startsWith("LY")) {
-
 						// 留言
 
 					} else if (content.startsWith("HF")) {
