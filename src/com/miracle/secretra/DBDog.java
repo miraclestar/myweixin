@@ -36,7 +36,32 @@ public class DBDog {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String sql = "select secret,create_dt from secret WHERE uid<>" + fromUsername + " ORDER BY RAND() LIMIT 1";
+		String sql = "select secret,create_dt from secret WHERE uid<>'" + fromUsername + "' ORDER BY RAND() LIMIT 1";
+		log.debug("sql : " + sql);
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ret = rs.getString("secret");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			log.error("~~~~~~~~~~~~~~~ query secret error ! ", e);
+		} finally {
+			DBPool.getInstance().close(pstmt, rs, conn);
+		}
+		return ret;
+
+	}
+
+	public static String getSecretComm(String secret) {
+		String ret = null;
+		Connection conn = DBPool.getInstance().getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = "select uid,secret,create_dt from secret WHERE secret='" + secret + "'";
 		log.debug("sql : " + sql);
 		try {
 			pstmt = conn.prepareStatement(sql);
