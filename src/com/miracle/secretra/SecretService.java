@@ -47,9 +47,17 @@ public class SecretService {
 				if (msgType.equals("image")) {
 					String picUrl = root.elementText("PicUrl");
 
+					String md5 = "";
+					// try {
+					// md5 = DownPic.calcMD5(picUrl);
+					// } catch (NoSuchAlgorithmException e) {
+					// e.printStackTrace();
+					// } catch (IOException e) {
+					// e.printStackTrace();
+					// }
 					// 用户的秘密，需要回复给他一个秘密,保存秘密
 					// 保存
-					DBDog.saveSecret(fromUsername, picUrl);
+					DBDog.saveSecret(fromUsername, picUrl, md5);
 					// 回复一个秘密
 					ret = BirdSing.tellSecret(fromUsername, toUsername, time);
 

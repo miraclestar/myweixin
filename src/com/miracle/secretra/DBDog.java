@@ -80,11 +80,11 @@ public class DBDog {
 
 	}
 
-	public static void saveSecret(String fromUsername, String picUrl) {
+	public static void saveSecret(String fromUsername, String picUrl, String md5) {
 		Connection conn = DBPool.getInstance().getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "insert into secret(uid,secret,own,create_dt) values(?,?,?,?)";
+		String sql = "insert into secret(uid,secret,own,create_dt,md5) values(?,?,?,?,?)";
 		try {
 
 			Timestamp t = new Timestamp(Calendar.getInstance().getTimeInMillis() + 28800000);
@@ -93,6 +93,7 @@ public class DBDog {
 			pstmt.setString(2, picUrl);
 			pstmt.setInt(3, 1);
 			pstmt.setTimestamp(4, t);
+			pstmt.setString(5, md5);
 			pstmt.executeUpdate();
 
 		} catch (SQLException e) {
