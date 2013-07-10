@@ -87,11 +87,11 @@ public class SecretService {
 			}
 		}
 		log.info("回复内容： " + ret);
-		try {
-			ret = new String(ret.getBytes(), "iso-8859-1");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			ret = new String(ret.getBytes(), "UTF-8");
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
 
 		return ret;
 	}
