@@ -46,6 +46,19 @@ public class BirdSing {
 		return ret;
 	}
 
+	public static String singAsong(String content, String fromUsername, String toUsername, String time) {
+		if (content == null || content.equals("")) {
+			return singAsong(fromUsername, toUsername, time);
+		} else {
+			String ret = "";
+			String textTemplate = "<xml><ToUserName><![CDATA[%1$s]]></ToUserName><FromUserName><![CDATA[%2$s]]></FromUserName><CreateTime>%3$s</CreateTime><MsgType><![CDATA[%4$s]]></MsgType><Content><![CDATA[%5$s]]></Content><FuncFlag>0</FuncFlag></xml>";
+			String msgType = "text";
+			String contentStr = content;
+			ret = String.format(textTemplate, fromUsername, toUsername, time, msgType, contentStr);
+			return ret;
+		}
+	}
+
 	// 回复内容
 	public static String singAsong(String fromUsername, String toUsername, String time) {
 

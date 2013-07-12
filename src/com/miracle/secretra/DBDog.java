@@ -29,7 +29,7 @@ public class DBDog {
 
 	private static Logger log = Logger.getLogger(DBDog.class);
 
-	// 从最新的50个秘密当中随即获取一个秘密
+	// 随即获取一个秘密
 	public static String getSecretPic(String fromUsername) {
 		String ret = null;
 		Connection conn = DBPool.getInstance().getConnection();
@@ -78,6 +78,31 @@ public class DBDog {
 		}
 		return ret;
 
+	}
+
+	public static boolean checkmd5(String md5) {
+
+		boolean ret = false;
+		Connection conn = DBPool.getInstance().getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = "select * from secret WHERE md5='" + md5 + "'";
+		log.debug("sql : " + sql);
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				ret = true;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			log.error("~~~~~~~~~~~~~~~ query md5 error ! ", e);
+		} finally {
+			DBPool.getInstance().close(pstmt, rs, conn);
+		}
+		return ret;
 	}
 
 	public static void saveSecret(String fromUsername, String picUrl, String md5) {

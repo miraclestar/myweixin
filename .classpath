@@ -10,6 +10,5 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/log4j-1.2.16.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/log4j-adapter-1.0.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

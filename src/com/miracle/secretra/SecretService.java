@@ -2,7 +2,9 @@ package com.miracle.secretra;
 
 import info.xmark.core.Service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,6 +12,8 @@ import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+
+import com.miracle.tool.DownPic;
 
 public class SecretService {
 
@@ -48,18 +52,23 @@ public class SecretService {
 					String picUrl = root.elementText("PicUrl");
 
 					String md5 = "";
-					// try {
-					// md5 = DownPic.calcMD5(picUrl);
-					// } catch (NoSuchAlgorithmException e) {
-					// e.printStackTrace();
-					// } catch (IOException e) {
-					// e.printStackTrace();
-					// }
-					// 用户的秘密，需要回复给他一个秘密,保存秘密
-					// 保存
-					DBDog.saveSecret(fromUsername, picUrl, md5);
-					// 回复一个秘密
-					ret = BirdSing.tellSecret(fromUsername, toUsername, time);
+					try {
+						md5 = DownPic.calcMD5(picUrl);
+					} catch (NoSuchAlgorithmException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+					if (DBDog.checkmd5(md5)) {
+						ret = BirdSing.singAsong("这个图片秘密已经上传过了，请不要重复上传，谢谢~", fromUsername, toUsername, time);
+					} else {
+						// 用户的秘密，需要回复给他一个秘密,保存秘密
+						// 保存
+						DBDog.saveSecret(fromUsername, picUrl, md5);
+						// 回复一个秘密
+						ret = BirdSing.tellSecret(fromUsername, toUsername, time);
+					}
 
 				} else if (msgType.equals("text")) {
 
@@ -87,12 +96,12 @@ public class SecretService {
 			}
 		}
 		log.info("回复内容： " + ret);
-//		try {
-//			ret = new String(ret.getBytes(), "UTF-8");
-//		} catch (UnsupportedEncodingException e) {
-//			e.printStackTrace();
-//		}
-
+		try {
+			ret = new String(ret.getBytes("UTF-8"), "iso-8859-1");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		log.info("回复内容 iso-8859-1 ： " + ret);
 		return ret;
 	}
 }

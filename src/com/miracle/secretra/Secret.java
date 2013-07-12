@@ -24,12 +24,14 @@ public class Secret extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 
-		log.info(request.getCharacterEncoding());
-		
-//		response.setCharacterEncoding("UTF-8");
-//		request.setCharacterEncoding("UTF-8");
-		out.print(SecretService.reply(request));
-	
+		log.info(request.getCharacterEncoding() + " : " + response.getCharacterEncoding());
+		//
+		// response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
+
+		String ret = SecretService.reply(request);
+		out.print(ret);
+		log.info(ret);
 		out.flush();
 		out.close();
 	}
