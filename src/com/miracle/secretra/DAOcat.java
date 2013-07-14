@@ -20,7 +20,7 @@ public class DAOcat {
 		Connection conn = DBPool.getInstance().getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select * from secret where uid=?";
+		String sql = "select * from secret where uid=? limit 5";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, uid);

@@ -81,12 +81,13 @@ public class SecretService {
 						// 查看我留过言的 秘密
 					} else if (content.startsWith("LY")) {
 						// 留言
-
+						ret = BirdSing.singAsong("谢谢你的留言~", fromUsername, toUsername, time);
 					} else if (content.startsWith("HF")) {
 						// 回复
+						ret = BirdSing.singAsong("回复~", fromUsername, toUsername, time);
 					} else {
 						// 非命令，提醒用户使用方法
-						ret = BirdSing.singAsong(fromUsername, toUsername, time);
+						ret = BirdSing.singAsong("请回复图片格式，谢谢配合",fromUsername, toUsername, time);
 					}
 				} else if (msgType.equals("event")) {
 					// 新用户订阅，提醒用户使用方法
@@ -104,4 +105,6 @@ public class SecretService {
 		log.info("回复内容 iso-8859-1 ： " + ret);
 		return ret;
 	}
+
+	
 }
