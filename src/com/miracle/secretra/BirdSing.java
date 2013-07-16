@@ -76,4 +76,17 @@ public class BirdSing {
 		return null;
 	}
 
+	public static String showLiuyan(String fromUsername, String toUsername, String time) {
+		String ret = "";
+		String textPicTemplate = " <xml> <ToUserName><![CDATA[%1$s]]></ToUserName> <FromUserName><![CDATA[%2$s]]></FromUserName> <CreateTime>%3$s</CreateTime> <MsgType><![CDATA[news]]></MsgType> "
+				+ "<ArticleCount>1</ArticleCount> <Articles> <item> <Title><![CDATA[%4$s]]></Title>  <Description><![CDATA[%5$s]]></Description>"
+				+ " <PicUrl><![CDATA[%6$s]]></PicUrl> <Url><![CDATA[%7$s]]></Url> </item>  </Articles> <FuncFlag>1</FuncFlag> </xml> ";
+
+		String picUrl = "http://www.xmark.info/tradesecret/image/gethead.jpg";
+
+		ret = String.format(textPicTemplate, fromUsername, toUsername, time, "留言板", "留言请以字母LY开头,查看留言请回复CK。", picUrl,
+				"http://www.xmark.info/tradesecret/liuyan.jsp");
+		return ret;
+	}
+
 }

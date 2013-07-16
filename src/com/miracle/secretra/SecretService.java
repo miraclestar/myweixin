@@ -78,16 +78,21 @@ public class SecretService {
 						// 查看我的秘密
 						ret = BirdSing.showSecret(fromUsername, toUsername, time);
 					} else if (content.startsWith("CK")) {
-						// 查看我留过言的 秘密
+						// 查看我的留言
+
+						ret = BirdSing.showLiuyan(fromUsername, toUsername, time);
+
 					} else if (content.startsWith("LY")) {
 						// 留言
-						ret = BirdSing.singAsong("谢谢你的留言~", fromUsername, toUsername, time);
+						DBDog.saveLiuyan(fromUsername, content);
+						ret = BirdSing.singAsong("留言成功,你可以输入CK来查看所有人的留言.", fromUsername, toUsername, time);
+
 					} else if (content.startsWith("HF")) {
 						// 回复
 						ret = BirdSing.singAsong("回复~", fromUsername, toUsername, time);
 					} else {
 						// 非命令，提醒用户使用方法
-						ret = BirdSing.singAsong("请回复图片格式，谢谢配合",fromUsername, toUsername, time);
+						ret = BirdSing.singAsong("请回复图片格式，谢谢配合", fromUsername, toUsername, time);
 					}
 				} else if (msgType.equals("event")) {
 					// 新用户订阅，提醒用户使用方法
@@ -106,5 +111,4 @@ public class SecretService {
 		return ret;
 	}
 
-	
 }

@@ -128,4 +128,26 @@ public class DBDog {
 			DBPool.getInstance().close(pstmt, rs, conn);
 		}
 	}
+
+	public static void saveLiuyan(String fromUsername, String content) {
+		Connection conn = DBPool.getInstance().getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "insert into liuyan(uid,content,dt) values(?,?,?)";
+		try {
+
+			Timestamp t = new Timestamp(Calendar.getInstance().getTimeInMillis() + 28800000);
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fromUsername);
+			pstmt.setString(2, content);
+			pstmt.setTimestamp(3, t);
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			log.error("~~~~~~~~~~~~~~~ save error ! ", e);
+		} finally {
+			DBPool.getInstance().close(pstmt, rs, conn);
+		}
+	}
 }
