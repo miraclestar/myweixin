@@ -49,4 +49,14 @@
     <servlet-name>Test</servlet-name>
     <url-pattern>/Test</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>WeiboLogin</display-name>
+    <servlet-name>WeiboLogin</servlet-name>
+    <servlet-class>com.miracle.secretra.WeiboLogin</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>WeiboLogin</servlet-name>
+    <url-pattern>/WeiboLogin</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -9,9 +9,7 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-
-
-  %>
+ %>
 <html>
   <head>
     <base href="<%=basePath%>">
@@ -29,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body width='300px'>
   <%
   Connection conn = DBPool.getInstance().getConnection();
-  String sql="select * from liuyan order by dt desc limit 50";
+  String sql="select * from liuyan order by dt desc limit 500";
   PreparedStatement pstmt =null;
   ResultSet rs =null;
   

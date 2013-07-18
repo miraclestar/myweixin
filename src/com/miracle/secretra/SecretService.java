@@ -73,32 +73,31 @@ public class SecretService {
 				} else if (msgType.equals("text")) {
 
 					String content = root.elementText("Content");
-
 					if (content.startsWith("WD")) {
 						// 查看我的秘密
 						ret = BirdSing.showSecret(fromUsername, toUsername, time);
-					} else if (content.startsWith("CK")) {
+					} else if (content.startsWith("CK") || content.startsWith("ck") || content.startsWith("Ck") || content.startsWith("cK")) {
 						// 查看我的留言
-
 						ret = BirdSing.showLiuyan(fromUsername, toUsername, time);
 
-					} else if (content.startsWith("LY")) {
+					} else if (content.startsWith("LY") || content.startsWith("ly") || content.startsWith("Ly") || content.startsWith("lY")) {
 						// 留言
 						DBDog.saveLiuyan(fromUsername, content);
 						ret = BirdSing.singAsong("留言成功,你可以输入CK来查看所有人的留言.", fromUsername, toUsername, time);
 
-					} else if (content.startsWith("HF")) {
+					} else if (content.startsWith("wb") || content.startsWith("WB")) {
 						// 回复
-						ret = BirdSing.singAsong("回复~", fromUsername, toUsername, time);
+						log.info("weibotoken:-- " + WeiboTool.token);
+						log.info(WeiboTool.sendweibo(content, WeiboTool.token));
+						ret = BirdSing.singAsong("微博发送成功~到这里http://weibo.com/secretra查看~", fromUsername, toUsername, time);
 					} else {
 						// 非命令，提醒用户使用方法
-						ret = BirdSing.singAsong("请回复图片格式，谢谢配合", fromUsername, toUsername, time);
+						ret = BirdSing.singAsong("请回复图片格式，谢谢配合; 如要留言,请输入以'LY'开头的留言内容.", fromUsername, toUsername, time);
 					}
 				} else if (msgType.equals("event")) {
 					// 新用户订阅，提醒用户使用方法
 					ret = BirdSing.singAsong(fromUsername, toUsername, time);
 				}
-
 			}
 		}
 		log.info("回复内容： " + ret);
