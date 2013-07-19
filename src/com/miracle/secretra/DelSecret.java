@@ -39,6 +39,8 @@ public class DelSecret extends HttpServlet {
 				pstmt.setInt(1, Integer.parseInt(id));
 				out.print(pstmt.executeUpdate());
 			} catch (Exception e) {
+				log.error("del erro",e);
+			}finally{
 				DBPool.getInstance().close(pstmt, rs, conn);
 			}
 		}

@@ -41,11 +41,12 @@ public class DBPool {
 			dataSource.setPassword(dbPwd);
 			dataSource.setJdbcUrl(dbUrl);
 			dataSource.setDriverClass(driver);
-			dataSource.setInitialPoolSize(5);
-			dataSource.setMinPoolSize(5);
-			dataSource.setMaxPoolSize(20);
+			dataSource.setInitialPoolSize(20);
+			dataSource.setMinPoolSize(20);
+			dataSource.setMaxPoolSize(50);
 			dataSource.setMaxIdleTime(15);
 			dataSource.setAcquireIncrement(5);
+			dataSource.setCheckoutTimeout(100000);
 			is.close();
 		} catch (PropertyVetoException e) {
 			e.printStackTrace();
