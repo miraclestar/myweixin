@@ -50,7 +50,7 @@ int pageNo = 1;
   </form>
  
   </h3>
-  <table>
+  <table border=1>
   <%
   Connection conn = DBPool.getInstance().getConnection();
     String from = String.valueOf((pageNo-1)*pageSize);
@@ -138,13 +138,17 @@ int pageNo = 1;
       out.print("</tr>");
         while(rs.next()){
           out.print("<tr>");
-          for(int i = 1 ;i <= colNum ;i++){
           %>
-            <td><%=rs.getObject(i) %></td>
+          <td><%=rs.getString("uid") %></td>
+          <td><a href="http://www.xmark.info/imageShare/Share?img=<%=rs.getString("secret") %>"><img src="http://www.xmark.info/imageShare/Share?img=<%=rs.getString("secret") %>" width='80' height='80'></a></td>
+          <td><%=rs.getString("comment") %></td>
+          <td><%=rs.getInt("own") %></td>
+          <td><%=rs.getTimestamp("create_dt") %></td>
+          <td><%=rs.getString("md5") %></td>
+          <td><%=rs.getInt("id") %><a href="<%=path%>/DelSecret?id=<%=rs.getInt("id")%>">删除</a></td>
           <%
           }
         out.print("</tr>");
-        }
         int all =0;
       pstmt = conn.prepareStatement(totalsql);
       rs = pstmt.executeQuery();

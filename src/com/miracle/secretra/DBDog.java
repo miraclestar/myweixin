@@ -36,7 +36,7 @@ public class DBDog {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String sql = "select secret,create_dt from secret WHERE uid<>'" + fromUsername + "' ORDER BY RAND() LIMIT 1";
+		String sql = "select secret,create_dt from secret WHERE own=1 and uid<>'" + fromUsername + "' ORDER BY RAND() LIMIT 1";
 		log.debug("sql : " + sql);
 		try {
 			pstmt = conn.prepareStatement(sql);

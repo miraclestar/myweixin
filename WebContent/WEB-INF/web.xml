@@ -59,4 +59,14 @@
     <servlet-name>WeiboLogin</servlet-name>
     <url-pattern>/WeiboLogin</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DelSecret</display-name>
+    <servlet-name>DelSecret</servlet-name>
+    <servlet-class>com.miracle.secretra.DelSecret</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DelSecret</servlet-name>
+    <url-pattern>/DelSecret</url-pattern>
+  </servlet-mapping>
 </web-app>
