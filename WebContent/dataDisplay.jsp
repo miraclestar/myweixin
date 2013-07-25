@@ -22,6 +22,9 @@ int pageNo = 1;
     int pageSize = 25;
     int pageTotal = 1; 
     String orderBy = request.getParameter("orderBy");
+    if(orderBy==null||orderBy.equals("")){
+    	orderBy="create_dt";
+    }
     String where = request.getParameter("where");
     String value = request.getParameter("value");
     String where2 = request.getParameter("where2");

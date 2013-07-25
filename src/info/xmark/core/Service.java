@@ -68,7 +68,6 @@ public class Service {
 	private static String reply(String fromUsername, String toUsername, String keyword, String time) throws UnsupportedEncodingException {
 		String res = "";
 
-		// System.out.println(new String(keyword.getBytes(), "utf-8"));
 		if (null != keyword && !keyword.equals("")) {
 			String transfer = analy(keyword);
 			if (!transfer.equals("")) {
@@ -76,7 +75,7 @@ public class Service {
 						+ "<ArticleCount>1</ArticleCount> <Articles> <item> <Title><![CDATA[%4$s]]></Title>  <Description><![CDATA[%5$s]]></Description>"
 						+ " <PicUrl><![CDATA[%6$s]]></PicUrl> <Url><![CDATA[%7$s]]></Url> </item>  </Articles> <FuncFlag>1</FuncFlag> </xml> ";
 
-				String picUrl = "http://myweixin.cloudfoundry.com/tmp/" + transfer + "/" + Tools.randomPic(transfer);
+				String picUrl = "http://www.xmark.info/tradesecret/image/" + transfer + "/" + Tools.randomPic(transfer);
 				res = String.format(textPicTemplate, fromUsername, toUsername, time, "h哈哈", "嘿嘿，" + keyword, picUrl, picUrl);
 
 			} else {
@@ -90,7 +89,7 @@ public class Service {
 		} else {
 			System.out.println("用户没有输入 warning~");
 		}
-		res = new String(res.getBytes(), "iso-8859-1");
+		res = new String(res.getBytes("UTF-8"), "iso-8859-1");
 		System.out.println("resultStr: " + res);
 		return res;
 	}
