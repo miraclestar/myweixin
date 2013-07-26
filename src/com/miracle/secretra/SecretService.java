@@ -14,6 +14,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 import com.miracle.tool.DownPic;
+import com.miracle.tool.SendMail;
 
 public class SecretService {
 
@@ -84,6 +85,14 @@ public class SecretService {
 						// 留言
 						DBDog.saveLiuyan(fromUsername, content);
 						ret = BirdSing.singAsong("留言成功,你可以输入CK来查看所有人的留言.", fromUsername, toUsername, time);
+					} else if (content.startsWith("PL") || content.startsWith("pl") || content.startsWith("pL") || content.startsWith("Pl")) {
+						// 评论
+						DBDog.saveLiuyan(fromUsername, content);
+						ret = BirdSing.singAsong("pl成功,你可以输入CP来查看自己的评论.", fromUsername, toUsername, time);
+					} else if (content.startsWith("EM") || content.startsWith("em") || content.startsWith("Em") || content.startsWith("eM")) {
+						// email
+						SendMail.send("从交换秘密发来的邮件", content, new String[] { "liuhongyuan99@qq.com" });
+						ret = BirdSing.singAsong("email发送完成~，去自己的邮箱查看吧", fromUsername, toUsername, time);
 
 					} else if (content.startsWith("wb") || content.startsWith("WB")) {
 						// 回复
@@ -92,7 +101,7 @@ public class SecretService {
 						ret = BirdSing.singAsong("微博发送成功~到这里http://weibo.com/secretra查看~", fromUsername, toUsername, time);
 					} else {
 						// 非命令，提醒用户使用方法
-						ret = BirdSing.singAsong("请回复图片格式，谢谢配合; 如要留言,请输入以'LY'开头的留言内容.", fromUsername, toUsername, time);
+						ret = BirdSing.singAsong("请回复图片格式，谢谢配合; 如要发文字,请输入以'LY'开头的内容.不过文字不会交换秘密。", fromUsername, toUsername, time);
 					}
 				} else if (msgType.equals("event")) {
 					// 新用户订阅，提醒用户使用方法
