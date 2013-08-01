@@ -22,6 +22,7 @@ public class BirdSing {
 	private static Logger log = Logger.getLogger(BirdSing.class);
 
 	public static String DEFAULTMM = "http://myweixin.cloudfoundry.com/tmp/dt/games-animated-gif-002.gif";
+	public static String DEFAULTWZ = "我有一个小秘密，小秘密~";
 
 	// 回一个秘密
 	public static String tellSecret(String fromUsername, String toUsername, String time) {
@@ -36,10 +37,19 @@ public class BirdSing {
 		return ret;
 	}
 
-	// 随即获取一个秘密
-	private static String getRandomMM(String fromUsername) {
+	// 随即获取一个图片秘密
+	public static String getRandomMM(String fromUsername) {
 
 		String ret = DBDog.getSecretPic(fromUsername);
+		if (null == ret || ret.equals("")) {
+			ret = DEFAULTWZ;
+		}
+		return ret;
+	}
+
+	// 随即取一个文字秘密
+	public static String getRandomWZMM(String fromUsername) {
+		String ret = DBDog.getWZSecret(fromUsername);
 		if (null == ret || ret.equals("")) {
 			ret = DEFAULTMM;
 		}

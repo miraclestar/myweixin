@@ -14,7 +14,6 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 import com.miracle.tool.DownPic;
-import com.miracle.tool.SendMail;
 
 public class SecretService {
 
@@ -73,7 +72,7 @@ public class SecretService {
 
 				} else if (msgType.equals("text")) {
 
-					String content = root.elementText("Content");
+					String content = root.elementText("Content").trim();
 					if (content.startsWith("WD")) {
 						// 查看我的秘密
 						ret = BirdSing.showSecret(fromUsername, toUsername, time);
@@ -83,25 +82,45 @@ public class SecretService {
 
 					} else if (content.startsWith("LY") || content.startsWith("ly") || content.startsWith("Ly") || content.startsWith("lY")) {
 						// 留言
-						DBDog.saveLiuyan(fromUsername, content);
-						ret = BirdSing.singAsong("留言成功,你可以输入CK来查看所有人的留言.", fromUsername, toUsername, time);
+						if (content.substring(2).equals("")) {
+							ret = BirdSing.singAsong("请加上你的留言，留言请以'LY'开头，谢谢", fromUsername, toUsername, time);
+						} else {
+							DBDog.saveLiuyan(fromUsername, content.substring(2));
+							ret = BirdSing.singAsong("留言成功,你可以输入CK来查看所有人的留言.", fromUsername, toUsername, time);
+						}
+					} else if (content.startsWith("MM") || content.startsWith("mm") || content.startsWith("Mm") || content.startsWith("mM")) {
+						// 文字秘密
+						if (content.substring(2).equals("")) {
+							ret = BirdSing.singAsong("请加上你的秘密，秘密以'WZ'开头，谢谢", fromUsername, toUsername, time);
+						} else {
+							DBDog.saveWZSecret(fromUsername, content.substring(2));
+							ret = BirdSing.singAsong("作为交换，告诉你这个秘密：" + BirdSing.getRandomWZMM(fromUsername), fromUsername, toUsername, time);
+						}
 					} else if (content.startsWith("PL") || content.startsWith("pl") || content.startsWith("pL") || content.startsWith("Pl")) {
 						// 评论
-						DBDog.saveLiuyan(fromUsername, content);
+						DBDog.saveLiuyan(fromUsername, content.substring(2));
 						ret = BirdSing.singAsong("pl成功,你可以输入CP来查看自己的评论.", fromUsername, toUsername, time);
-					} else if (content.startsWith("EM") || content.startsWith("em") || content.startsWith("Em") || content.startsWith("eM")) {
-						// email
-						SendMail.send("从交换秘密发来的邮件", content, new String[] { "liuhongyuan99@qq.com" });
-						ret = BirdSing.singAsong("email发送完成~，去自己的邮箱查看吧", fromUsername, toUsername, time);
-
-					} else if (content.startsWith("wb") || content.startsWith("WB")) {
-						// 回复
-						log.info("weibotoken:-- " + WeiboTool.token);
-						log.info(WeiboTool.sendweibo(content, WeiboTool.token));
-						ret = BirdSing.singAsong("微博发送成功~到这里http://weibo.com/secretra查看~", fromUsername, toUsername, time);
+						// } else if (content.startsWith("EM") ||
+						// content.startsWith("em") || content.startsWith("Em")
+						// || content.startsWith("eM")) {
+						// // email
+						// SendMail.send("从交换秘密发来的邮件", content, new String[] {
+						// "liuhongyuan99@qq.com" });
+						// ret = BirdSing.singAsong("email发送完成~，去自己的邮箱查看吧",
+						// fromUsername, toUsername, time);
+						//
+						// } else if (content.startsWith("wb") ||
+						// content.startsWith("WB")) {
+						// // 回复
+						// log.info("weibotoken:-- " + WeiboTool.token);
+						// log.info(WeiboTool.sendweibo(content,
+						// WeiboTool.token));
+						// ret =
+						// BirdSing.singAsong("微博发送成功~到这里http://weibo.com/secretra查看~",
+						// fromUsername, toUsername, time);
 					} else {
 						// 非命令，提醒用户使用方法
-						ret = BirdSing.singAsong("请回复图片格式，谢谢配合; 如要发文字,请输入以'LY'开头的内容.不过文字不会交换秘密。", fromUsername, toUsername, time);
+						ret = BirdSing.singAsong("文字的秘密请以'MM'开头，来交换别人的秘密；如要发留言板,请输入以'LY'开头的内容。谢谢", fromUsername, toUsername, time);
 					}
 				} else if (msgType.equals("event")) {
 					// 新用户订阅，提醒用户使用方法
@@ -118,5 +137,4 @@ public class SecretService {
 		log.info("回复内容 iso-8859-1 ： " + ret);
 		return ret;
 	}
-
 }

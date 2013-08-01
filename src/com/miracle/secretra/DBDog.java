@@ -112,7 +112,7 @@ public class DBDog {
 		String sql = "insert into secret(uid,secret,own,create_dt,md5) values(?,?,?,?,?)";
 		try {
 
-			Timestamp t = new Timestamp(Calendar.getInstance().getTimeInMillis() + 28800000);
+			Timestamp t = new Timestamp(Calendar.getInstance().getTimeInMillis());
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, fromUsername);
 			pstmt.setString(2, picUrl);
@@ -136,7 +136,7 @@ public class DBDog {
 		String sql = "insert into liuyan(uid,content,dt) values(?,?,?)";
 		try {
 
-			Timestamp t = new Timestamp(Calendar.getInstance().getTimeInMillis() + 28800000);
+			Timestamp t = new Timestamp(Calendar.getInstance().getTimeInMillis());
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, fromUsername);
 			pstmt.setString(2, content);
@@ -149,5 +149,52 @@ public class DBDog {
 		} finally {
 			DBPool.getInstance().close(pstmt, rs, conn);
 		}
+	}
+
+	public static String getWZSecret(String fromUsername) {
+		String ret = null;
+		Connection conn = DBPool.getInstance().getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = "select secret from wz_secret WHERE uid<>'" + fromUsername + "' ORDER BY RAND() LIMIT 1";
+		log.debug("sql : " + sql);
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ret = rs.getString("secret");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			log.error("~~~~~~~~~~~~~~~ query wz secret error ! ", e);
+		} finally {
+			DBPool.getInstance().close(pstmt, rs, conn);
+		}
+		return ret;
+	}
+
+	public static void saveWZSecret(String fromUsername, String content) {
+		Connection conn = DBPool.getInstance().getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "insert into wz_secret(uid,secret,dt) values(?,?,?)";
+		try {
+
+			Timestamp t = new Timestamp(Calendar.getInstance().getTimeInMillis());
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fromUsername);
+			pstmt.setString(2, content);
+			pstmt.setTimestamp(3, t);
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			log.error("~~~~~~~~~~~~~~~ save error ! ", e);
+		} finally {
+			DBPool.getInstance().close(pstmt, rs, conn);
+		}
+
 	}
 }
