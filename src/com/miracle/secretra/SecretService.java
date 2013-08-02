@@ -91,7 +91,7 @@ public class SecretService {
 					} else if (content.startsWith("MM") || content.startsWith("mm") || content.startsWith("Mm") || content.startsWith("mM")) {
 						// 文字秘密
 						if (content.substring(2).equals("")) {
-							ret = BirdSing.singAsong("请加上你的秘密，秘密以'WZ'开头，谢谢", fromUsername, toUsername, time);
+							ret = BirdSing.singAsong("请加上你的秘密，秘密以'MM'开头，谢谢", fromUsername, toUsername, time);
 						} else {
 							DBDog.saveWZSecret(fromUsername, content.substring(2));
 							ret = BirdSing.singAsong("作为交换，告诉你这个秘密：" + BirdSing.getRandomWZMM(fromUsername), fromUsername, toUsername, time);
