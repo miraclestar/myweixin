@@ -28,7 +28,7 @@ public class SecretService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		log.info("接收到： " + postStr);
+		log.info("received ： " + postStr);
 
 		if (null != postStr && !postStr.isEmpty()) {
 			Document document = null;
@@ -120,7 +120,7 @@ public class SecretService {
 						// fromUsername, toUsername, time);
 					} else {
 						// 非命令，提醒用户使用方法
-						ret = BirdSing.singAsong("文字的秘密请以'MM'开头，来交换别人的秘密；如要发留言板,请输入以'LY'开头的内容。谢谢", fromUsername, toUsername, time);
+						ret = BirdSing.singAsong("秘密请以'MM'开头，来交换别人的秘密；如要发留言板,请输入以'LY'开头的内容。谢谢", fromUsername, toUsername, time);
 					}
 				} else if (msgType.equals("event")) {
 					// 新用户订阅，提醒用户使用方法
