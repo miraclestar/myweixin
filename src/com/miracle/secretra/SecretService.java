@@ -129,13 +129,13 @@ public class SecretService {
 				}
 			}
 		}
-		log.info("回复内容： " + ret);
+		log.info("reply： " + ret);
 		try {
 			ret = new String(ret.getBytes("UTF-8"), "iso-8859-1");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		log.info("回复内容 iso-8859-1 ： " + ret);
+		log.info("reply iso-8859-1 ： " + ret);
 		return ret;
 	}
 }

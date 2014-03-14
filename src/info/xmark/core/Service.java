@@ -24,7 +24,6 @@ public class Service {
 		while ((len = sis.read(buf)) != -1) {
 			sb.append(buf, 0, len);
 		}
-		sb.toString();
 		return sb.toString();
 	}
 
