@@ -80,7 +80,7 @@ public class SecretService {
 						// 查看我的留言
 						ret = BirdSing.showLiuyan(fromUsername, toUsername, time);
 
-					} else if (content.startsWith("LY") || content.startsWith("ly") || content.startsWith("Ly") || content.startsWith("lY")) {
+					} else if (content.substring(0, 1).equalsIgnoreCase("LY")) {
 						// 留言
 						if (content.substring(2).equals("")) {
 							ret = BirdSing.singAsong("请加上你的留言，留言请以'LY'开头，谢谢", fromUsername, toUsername, time);
@@ -88,7 +88,7 @@ public class SecretService {
 							DBDog.saveLiuyan(fromUsername, content.substring(2));
 							ret = BirdSing.singAsong("留言成功,你可以输入CK来查看所有人的留言.", fromUsername, toUsername, time);
 						}
-					} else if (content.startsWith("MM") || content.startsWith("mm") || content.startsWith("Mm") || content.startsWith("mM")) {
+					} else if (content.substring(0, 1).equalsIgnoreCase("MM")) {
 						// 文字秘密
 						if (content.substring(2).equals("")) {
 							ret = BirdSing.singAsong("请加上你的秘密，秘密以'MM'开头，谢谢", fromUsername, toUsername, time);
@@ -96,28 +96,11 @@ public class SecretService {
 							DBDog.saveWZSecret(fromUsername, content.substring(2));
 							ret = BirdSing.singAsong("作为交换，告诉你这个秘密：" + BirdSing.getRandomWZMM(fromUsername), fromUsername, toUsername, time);
 						}
-					} else if (content.startsWith("PL") || content.startsWith("pl") || content.startsWith("pL") || content.startsWith("Pl")) {
+					} else if (content.substring(0, 1).equalsIgnoreCase("PL")) {
 						// 评论
 						DBDog.saveLiuyan(fromUsername, content.substring(2));
 						ret = BirdSing.singAsong("pl成功,你可以输入CP来查看自己的评论.", fromUsername, toUsername, time);
-						// } else if (content.startsWith("EM") ||
-						// content.startsWith("em") || content.startsWith("Em")
-						// || content.startsWith("eM")) {
-						// // email
-						// SendMail.send("从交换秘密发来的邮件", content, new String[] {
-						// "liuhongyuan99@qq.com" });
-						// ret = BirdSing.singAsong("email发送完成~，去自己的邮箱查看吧",
-						// fromUsername, toUsername, time);
-						//
-						// } else if (content.startsWith("wb") ||
-						// content.startsWith("WB")) {
-						// // 回复
-						// log.info("weibotoken:-- " + WeiboTool.token);
-						// log.info(WeiboTool.sendweibo(content,
-						// WeiboTool.token));
-						// ret =
-						// BirdSing.singAsong("微博发送成功~到这里http://weibo.com/secretra查看~",
-						// fromUsername, toUsername, time);
+
 					} else {
 						// 非命令，提醒用户使用方法
 						ret = BirdSing.singAsong("秘密请以'MM'开头，来交换别人的秘密；如要发留言板,请输入以'LY'开头的内容。谢谢", fromUsername, toUsername, time);
@@ -125,6 +108,24 @@ public class SecretService {
 				} else if (msgType.equals("event")) {
 					// 新用户订阅，提醒用户使用方法
 					ret = BirdSing.singAsong(fromUsername, toUsername, time);
+				} else if (msgType.equals("video")) {
+					// 视频，微信不支持了！
+					String mediaId = root.elementText("MediaId").trim();
+					String thumbMediaId = root.elementText("ThumbMediaId").trim();
+					log.info("video, mediaId:" + mediaId + ",thumbMediaId:" + thumbMediaId);
+					ret = BirdSing.singAsongVideo("s-K03TfkqeXJ2I3OICEAFQn5ZmqT-qdrzBoDdPa271TZXlS9DjGLlkT_vRDx4J9z", fromUsername, toUsername, time, "video");
+				} else if (msgType.equals("voice")) {
+					// 语音
+					String mediaId = root.elementText("MediaId").trim();
+					String format = root.elementText("Format").trim();
+					log.info("voice, mediaId:" + mediaId + ",format:" + format);
+
+					DBDog.saveSecret(fromUsername, mediaId, "voice");
+					String reMediaId = DBDog.getVoice(fromUsername);
+					ret = BirdSing.singAsongVoice(reMediaId, fromUsername, toUsername, time, "voice");
+
+				} else {
+					ret = BirdSing.singAsong("你说的神马，我听不懂~", fromUsername, toUsername, time);
 				}
 			}
 		}

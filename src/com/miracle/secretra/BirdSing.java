@@ -56,6 +56,15 @@ public class BirdSing {
 		return ret;
 	}
 
+	/**
+	 * text
+	 * 
+	 * @param content
+	 * @param fromUsername
+	 * @param toUsername
+	 * @param time
+	 * @return
+	 */
 	public static String singAsong(String content, String fromUsername, String toUsername, String time) {
 		if (content == null || content.equals("")) {
 			return singAsong(fromUsername, toUsername, time);
@@ -65,6 +74,52 @@ public class BirdSing {
 			String msgType = "text";
 			String contentStr = content;
 			ret = String.format(textTemplate, fromUsername, toUsername, time, msgType, contentStr);
+			return ret;
+		}
+	}
+
+	/**
+	 * voice
+	 * 
+	 * @param mediaId
+	 * @param fromUsername
+	 * @param toUsername
+	 * @param time
+	 * @param msgType
+	 * @return
+	 */
+	public static String singAsongVoice(String mediaId, String fromUsername, String toUsername, String time, String msgType) {
+		if (mediaId == null || mediaId.equals("")) {
+			return singAsong(fromUsername, toUsername, time);
+		} else {
+			String ret = "";
+			String voice = "<xml><ToUserName><![CDATA[%1$s]]></ToUserName><FromUserName><![CDATA[%2$s]]></FromUserName><CreateTime>%3$s</CreateTime><MsgType><![CDATA[%4$s]]></MsgType><Voice><MediaId><![CDATA[%5$s]]></MediaId></Voice></xml>";
+			String contentStr = mediaId;
+			ret = String.format(voice, fromUsername, toUsername, time, msgType, contentStr);
+			return ret;
+		}
+	}
+
+	/**
+	 * video
+	 * 
+	 * @param mediaId
+	 * @param fromUsername
+	 * @param toUsername
+	 * @param time
+	 * @param msgType
+	 * @return
+	 */
+	public static String singAsongVideo(String mediaId, String fromUsername, String toUsername, String time, String msgType) {
+		if (mediaId == null || mediaId.equals("")) {
+			return singAsong(fromUsername, toUsername, time);
+		} else {
+			String ret = "";
+			String voice = "<xml><ToUserName><![CDATA[%1$s]]></ToUserName><FromUserName><![CDATA[%2$s]]></FromUserName><CreateTime>%3$s</CreateTime><MsgType><![CDATA[%4$s]]></MsgType><Video><MediaId><![CDATA[%5$s]]></MediaId><Title><![CDATA[%6$s]]></Title><Description><![CDATA[%7$s]]></Description></Video> </xml>";
+			String contentStr = mediaId;
+			String title = "my video";
+			String desc = "video for you";
+			ret = String.format(voice, fromUsername, toUsername, time, msgType, contentStr, title, desc);
 			return ret;
 		}
 	}

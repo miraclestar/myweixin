@@ -197,4 +197,29 @@ public class DBDog {
 		}
 
 	}
+
+	public static String getVoice(String fromUsername) {
+		String ret = null;
+		Connection conn = DBPool.getInstance().getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = "select secret,create_dt from secret WHERE own=1 and md5='voice' and uid<>'" + fromUsername + "' ORDER BY RAND() LIMIT 1";
+
+		log.debug("sql : " + sql);
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ret = rs.getString("secret");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			log.error("~~~~~~~~~~~~~~~ query secret error ! ", e);
+		} finally {
+			DBPool.getInstance().close(pstmt, rs, conn);
+		}
+		return ret;
+	}
 }
