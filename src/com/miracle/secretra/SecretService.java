@@ -48,6 +48,7 @@ public class SecretService {
 			String msgType = root.elementText("MsgType");
 			String time = root.elementText("CreateTime");
 			if (msgType != null) {
+
 				if (msgType.equals("image")) {
 					String picUrl = root.elementText("PicUrl");
 
@@ -72,39 +73,8 @@ public class SecretService {
 
 				} else if (msgType.equals("text")) {
 
-					String content = root.elementText("Content").trim();
-					if (content.startsWith("WD")) {
-						// 查看我的秘密
-						ret = BirdSing.showSecret(fromUsername, toUsername, time);
-					} else if (content.startsWith("CK") || content.startsWith("ck") || content.startsWith("Ck") || content.startsWith("cK")) {
-						// 查看我的留言
-						ret = BirdSing.showLiuyan(fromUsername, toUsername, time);
+					ret = textReply(root, fromUsername, toUsername, time);
 
-					} else if (content.substring(0, 1).equalsIgnoreCase("LY")) {
-						// 留言
-						if (content.substring(2).equals("")) {
-							ret = BirdSing.singAsong("请加上你的留言，留言请以'LY'开头，谢谢", fromUsername, toUsername, time);
-						} else {
-							DBDog.saveLiuyan(fromUsername, content.substring(2));
-							ret = BirdSing.singAsong("留言成功,你可以输入CK来查看所有人的留言.", fromUsername, toUsername, time);
-						}
-					} else if (content.substring(0, 1).equalsIgnoreCase("MM")) {
-						// 文字秘密
-						if (content.substring(2).equals("")) {
-							ret = BirdSing.singAsong("请加上你的秘密，秘密以'MM'开头，谢谢", fromUsername, toUsername, time);
-						} else {
-							DBDog.saveWZSecret(fromUsername, content.substring(2));
-							ret = BirdSing.singAsong("作为交换，告诉你这个秘密：" + BirdSing.getRandomWZMM(fromUsername), fromUsername, toUsername, time);
-						}
-					} else if (content.substring(0, 1).equalsIgnoreCase("PL")) {
-						// 评论
-						DBDog.saveLiuyan(fromUsername, content.substring(2));
-						ret = BirdSing.singAsong("pl成功,你可以输入CP来查看自己的评论.", fromUsername, toUsername, time);
-
-					} else {
-						// 非命令，提醒用户使用方法
-						ret = BirdSing.singAsong("秘密请以'MM'开头，来交换别人的秘密；如要发留言板,请输入以'LY'开头的内容。谢谢", fromUsername, toUsername, time);
-					}
 				} else if (msgType.equals("event")) {
 					// 新用户订阅，提醒用户使用方法
 					ret = BirdSing.singAsong(fromUsername, toUsername, time);
@@ -136,6 +106,47 @@ public class SecretService {
 			e.printStackTrace();
 		}
 		log.info("reply iso-8859-1 ： " + ret);
+		return ret;
+	}
+
+	private static String textReply(Element root, String fromUsername, String toUsername, String time) {
+		String ret;
+		String content = root.elementText("Content").trim();
+
+		if (content.length() < 20) {
+			ret = BirdSing.singAsong("您的秘密太短，请写把秘密写详细点吧，不少于20个字~", fromUsername, toUsername, time);
+		} else {
+			DBDog.saveWZSecret(fromUsername, content.substring(2));
+			ret = BirdSing.singAsong("作为交换，告诉你这个秘密：" + BirdSing.getRandomWZMM(fromUsername), fromUsername, toUsername, time);
+		}
+		/**
+		 * if (content.startsWith("WD")) { // 查看我的秘密 ret =
+		 * BirdSing.showSecret(fromUsername, toUsername, time); } else if
+		 * (content.startsWith("CK") || content.startsWith("ck") ||
+		 * content.startsWith("Ck") || content.startsWith("cK")) { // 查看我的留言 ret
+		 * = BirdSing.showLiuyan(fromUsername, toUsername, time);
+		 * 
+		 * } else if (content.substring(0, 1).equalsIgnoreCase("LY")) { // 留言 if
+		 * (content.substring(2).equals("")) { ret =
+		 * BirdSing.singAsong("请加上你的留言，留言请以'LY'开头，谢谢", fromUsername, toUsername,
+		 * time); } else { DBDog.saveLiuyan(fromUsername, content.substring(2));
+		 * ret = BirdSing.singAsong("留言成功,你可以输入CK来查看所有人的留言.", fromUsername,
+		 * toUsername, time); } } else if (content.substring(0,
+		 * 1).equalsIgnoreCase("MM")) { // 文字秘密 if
+		 * (content.substring(2).equals("")) { ret =
+		 * BirdSing.singAsong("请加上你的秘密，秘密以'MM'开头，谢谢", fromUsername, toUsername,
+		 * time); } else { DBDog.saveWZSecret(fromUsername,
+		 * content.substring(2)); ret = BirdSing.singAsong("作为交换，告诉你这个秘密：" +
+		 * BirdSing.getRandomWZMM(fromUsername), fromUsername, toUsername,
+		 * time); } } else if (content.substring(0, 1).equalsIgnoreCase("PL")) {
+		 * // 评论 DBDog.saveLiuyan(fromUsername, content.substring(2)); ret =
+		 * BirdSing.singAsong("pl成功,你可以输入CP来查看自己的评论.", fromUsername, toUsername,
+		 * time);
+		 * 
+		 * } else { // 非命令，提醒用户使用方法 ret =
+		 * BirdSing.singAsong("秘密请以'MM'开头，来交换别人的秘密；如要发留言板,请输入以'LY'开头的内容。谢谢",
+		 * fromUsername, toUsername, time); }
+		 **/
 		return ret;
 	}
 }
